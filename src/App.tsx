@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ReactElement } from "react";
+import { Router } from "react-router-dom";
 
-function App() {
+// import { auth } from '@hercules/root-app-api';
+import { ConfigProvider } from "antd";
+import AppRouter from "./routes/AppRouter";
+import { getCustomLocale } from "./utils/getCustomLocale";
+import { createBrowserHistory } from "history";
+
+// import useConfig from './hooks/useConfig';
+// import useHotjar from './hooks/useHotjar';
+// import './styles/global.less';
+// import AppRouter from "./routes/AppRouter";
+// import { History } from "./routes/history";
+// import { AuthProvider } from "./hooks/useAuth";
+
+const customHistory = createBrowserHistory();
+const updatedPtBr = getCustomLocale();
+
+const App = (): ReactElement => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ConfigProvider locale={updatedPtBr}>
+      <Router history={customHistory}>
+        <AppRouter />
+      </Router>
+    </ConfigProvider>
   );
-}
+};
 
 export default App;
