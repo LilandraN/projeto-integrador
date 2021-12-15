@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 
 import { MenuOutlined } from "@ant-design/icons";
 import { Layout, Menu, Button, LayoutProps as AntdLayoutProps } from "antd";
@@ -20,46 +20,48 @@ function DefaultLayout({
   const { pathname } = useLocation();
   const highlightedKey = pathname.substring(1);
 
+  const history = useHistory();
+
   const onCollapse = () => {
     setCollapsed(!collapsed);
   };
 
   return (
-    <>
-      <Layout style={{ minHeight: "100vh" }} {...rest}>
-        <Sider trigger={null} collapsible collapsed={collapsed}>
-          <Button
-            type="text"
-            onClick={onCollapse}
-            style={{
-              width: "100%",
-              color: "#fff",
-              margin: " 4px",
-              textAlign: "center",
-              alignContent: "center",
-            }}
-          >
-            <MenuOutlined style={{ fontSize: "16px" }} />
-          </Button>
-          {!isBlocked && (
-            <Menu
-              selectedKeys={[highlightedKey]}
-              defaultOpenKeys={["sub1"]}
-              mode="inline"
-              theme="dark"
-            >
-              <Menu.Item key="">
-                <Link to="/">Lista de Usuários</Link>
-              </Menu.Item>
-              <Menu.Item key="register">
-                <Link to="/register">Cadastro de Usuários</Link>
-              </Menu.Item>
-            </Menu>
-          )}
-        </Sider>
-        <Layout>{children}</Layout>
-      </Layout>
-    </>
+    <Layout style={{ minHeight: "100vh" }} {...rest}>
+      <Sider trigger={null} collapsible collapsed={collapsed}>
+        <Button
+          type="text"
+          onClick={onCollapse}
+          style={{
+            width: "100%",
+            color: "#fff",
+            margin: " 4px",
+            textAlign: "center",
+            alignContent: "center",
+          }}
+        >
+          <MenuOutlined style={{ fontSize: "16px" }} />
+        </Button>
+
+        <Menu
+          selectedKeys={[highlightedKey]}
+          defaultSelectedKeys={[""]}
+          mode="inline"
+          theme="dark"
+          onClick={(e) => console.log(e)}
+        >
+          <Menu.Item key="">
+            <a href="/" onClick={() => history.push("/")}>
+              Lista de Usuários
+            </a>
+          </Menu.Item>
+          <Menu.Item key="register" onClick={() => history.push("/register")}>
+            <a href="/register">Cadastro de Usuários</a>
+          </Menu.Item>
+        </Menu>
+      </Sider>
+      <Layout>{children}</Layout>
+    </Layout>
   );
 }
 

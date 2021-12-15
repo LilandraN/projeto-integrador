@@ -11,6 +11,13 @@ export default function UserTable({
 }: TableProps): JSX.Element {
   const columns: ColumnType<any>[] = [
     {
+      title: "Codigo do Usuário",
+      dataIndex: "userId",
+      key: "id",
+      sortDirections: ["descend", "ascend"],
+      sorter: (a, b) => a.userId - b.userId,
+    },
+    {
       title: "Nome do Usuário",
       dataIndex: "name",
       key: "id",

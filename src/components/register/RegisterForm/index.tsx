@@ -1,9 +1,23 @@
 import { Card as Panel, Form, Input, Button, Row, Col } from "antd";
+import { postUser } from "../../../services/register.service";
 import { Container } from "./styles";
 
 export default function RegisterForm() {
   const onFinish = (values: any) => {
-    console.log("Success:", values);
+    const token = Buffer.from(Math.random().toString()).toString("base64");
+    const user: any = {
+      name: values.name1,
+      username: values.username,
+      accessToken: token,
+      password: values.password,
+      post: values.post,
+      userRole: values.userRole,
+    };
+    try {
+      postUser(user);
+    } catch (err: any) {
+      console.log(err);
+    }
   };
 
   const onFinishFailed = (errorInfo: any) => {
